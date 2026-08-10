@@ -463,7 +463,74 @@ tr.ours { background: linear-gradient(90deg, rgba(36,118,216,.08), rgba(244,131,
   align-self: center;
   width: 100%;
 }
+.selection-objective {
+  width: 100%;
+  box-sizing: border-box;
 
+  padding: 28px 28px 30px;
+
+  background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.96),
+      rgba(247, 250, 255, 0.96)
+  );
+
+  border: 1px solid #d8e5f7;
+  border-radius: 20px;
+
+  box-shadow:
+      0 10px 30px rgba(36, 88, 160, 0.06);
+
+  /* 不要 overflow: hidden */
+}
+.selection-objective-title {
+  margin-bottom: 18px;
+
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+
+  color: #71809b;
+}
+.selection-equation {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+
+  font-size: clamp(16px, 1.8vw, 23px);
+  color: #1259b0;
+
+  text-align: center;
+
+  padding: 8px 4px 4px;
+
+  overflow: visible;
+}
+.selection-equation mjx-container[jax="SVG"] > svg {
+  max-width: 100% !important;
+  height: auto !important;
+}
+.selection-equation::-webkit-scrollbar {
+  display: none;
+}
+.selection-equation mjx-container[display="true"] {
+  margin: 0 !important;
+}
+@media (max-width: 768px) {
+
+  .selection-objective {
+      padding: 22px 20px 24px;
+  }
+
+  .selection-objective-title {
+      font-size: 12px;
+      margin-bottom: 14px;
+  }
+
+  .selection-equation {
+      font-size: 18px;
+  }
+}
 .section-toolbar {
   min-height: 58px;
   margin: -24px auto 28px;

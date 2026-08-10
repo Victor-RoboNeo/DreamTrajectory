@@ -13,6 +13,22 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+    </script>
+    
+    <script
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+    </script>
 </head>
 <body>
   <nav class="nav" aria-label="Primary navigation">
@@ -217,8 +233,24 @@
               The refiner preserves the original action, samples smooth perturbations, predicts each candidate's induced trajectory in parallel, and selects the candidate that balances trajectory consistency and action smoothness.
             </p>
             <div class="formula-card">
-              <span class="formula-label">Selection objective</span>
-              <code>a* = arg max [ λ S<sub>traj</sub>(a) + (1-λ) η S<sub>smooth</sub>(a) ]</code>
+              <div class="selection-objective">
+                <div class="selection-objective-title">
+                    SELECTION OBJECTIVE
+                </div>
+            
+                <div class="selection-equation">
+                    \[
+                    a^{*}
+                    =
+                    \operatorname*{arg\,max}_{a}
+                    \left[
+                    \lambda S_{\mathrm{traj}}(a)
+                    +
+                    (1-\lambda)\eta S_{\mathrm{smooth}}(a)
+                    \right]
+                    \]
+                </div>
+            </div>
             </div>
           </div>
           <figure class="paper-figure zoomable" tabindex="0">
