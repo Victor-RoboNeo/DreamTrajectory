@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="DreamTrajectory: Trajectory-Guided Action Generation with World Model Alignment for Mobile Manipulation" />
+  <meta property="og:title" content="DreamTrajectory" />
+  <meta property="og:description" content="Trajectory-guided action generation with world model alignment for mobile manipulation." />
+  <meta property="og:image" content="assets/figure/overview.png" />
+  <title>DreamTrajectory | Mobile Manipulation</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="nav" aria-label="Primary navigation">
+    <div class="nav-container">
+      <a href="#top" class="nav-logo" aria-label="DreamTrajectory home">
+        <span class="logo-mark" aria-hidden="true"></span>
+        <span>DreamTrajectory</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#abstract">Abstract</a></li>
+        <li><a href="#method">Method</a></li>
+        <li><a href="#results">Results</a></li>
+        <li><a href="#tasks">Tasks</a></li>
+        <li><a href="#demos">Demos</a></li>
+        <li><a href="#citation">Citation</a></li>
+      </ul>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="reading-progress" aria-hidden="true"><i></i></div>
+  </nav>
+
+  <main id="top">
+    <header class="hero">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="trajectory-orbit orbit-one" aria-hidden="true"></div>
+      <div class="trajectory-orbit orbit-two" aria-hidden="true"></div>
+      <div class="container hero-container">
+        <div class="eyebrow reveal">Trajectory-Guided Vision-Language-Action Policy</div>
+        <h1 class="hero-title reveal">
+          <span class="gradient-text">DreamTrajectory</span>
+        </h1>
+        <p class="hero-subtitle reveal">
+          Trajectory-Guided Action Generation with World Model Alignment<br class="desktop-break" />
+          for Mobile Manipulation
+        </p>
+
+        <div class="authors reveal">
+          <div class="author-list">
+            <span class="author strong">Zheng Yang<sup>1*</sup></span>
+            <span class="author strong">Wenjie Zhang<sup>1*</sup></span>
+            <span class="author">Xiangyu Chen<sup>1</sup></span>
+            <span class="author">Wenxuan Song<sup>1</sup></span>
+            <span class="author">Xianpeng Wang<sup>1</sup></span>
+            <span class="author">Yihang Kang<sup>1</sup></span>
+            <span class="author">Wen Chen<sup>2</sup></span>
+            <span class="author">Lujia Wang<sup>1</sup></span>
+            <span class="author">Renjing Xu<sup>1</sup></span>
+            <span class="author">Xiaowen Chu<sup>1</sup></span>
+          </div>
+          <div class="affiliations">
+            <span><sup>1</sup> Hong Kong University of Science and Technology (Guangzhou)</span>
+            <span><sup>2</sup> Ola Dimensions</span>
+          </div>
+          <p class="author-note">* Equal contribution</p>
+        </div>
+
+        <div class="hero-buttons reveal">
+          <a class="btn btn-primary" href="https://arxiv.org/abs/2608.01381" target="_blank" rel="noopener noreferrer">
+            <span class="btn-icon" aria-hidden="true">↗</span> Paper
+          </a>
+          <a class="btn btn-secondary" href="https://arxiv.org/pdf/2608.01381" target="_blank" rel="noopener noreferrer">
+            <span class="btn-icon" aria-hidden="true">↓</span> PDF
+          </a>
+          <a class="btn btn-secondary" href="#demos">
+            <span class="btn-icon" aria-hidden="true">▶</span> Demos
+          </a>
+          <span class="btn btn-disabled" title="Replace this link when the code repository is ready">
+            <span class="btn-icon" aria-hidden="true">&lt;/&gt;</span> Code Coming Soon
+          </span>
+        </div>
+
+        <div class="hero-video-shell reveal">
+          <div class="video-shell-header">
+            <div>
+              <span class="video-badge">Overview Video</span>
+              <p>DreamTrajectory overview and representative rollouts.</p>
+            </div>
+            <span class="asset-path">assets/demo/overview.mp4</span>
+          </div>
+          <div class="paper-video-frame hero-paper-video">
+            <video class="paper-video" autoplay muted loop playsinline preload="metadata" poster="assets/figure/overview.png" aria-label="DreamTrajectory overview video">
+              <source src="assets/demo/overview.mp4" type="video/mp4" />
+            </video>
+            
+          </div>
+        </div>
+
+        <div class="hero-stats reveal" aria-label="Key results">
+          <div class="stat">
+            <span class="stat-value">54.8%</span>
+            <span class="stat-label">MS-HAB Average Success</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">90.0%</span>
+            <span class="stat-label">Real-World Average Success</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">+11.75 ms</span>
+            <span class="stat-label">Full DT Added Latency</span>
+          </div>
+        </div>
+      </div>
+      <a class="scroll-indicator" href="#abstract" aria-label="Scroll to abstract">
+        <span>Scroll to explore</span>
+        <i aria-hidden="true"></i>
+      </a>
+    </header>
+
+    <section id="abstract" class="section abstract-section">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-kicker">Motivation</span>
+          <h2 class="section-title">Abstract</h2>
+        </div>
+        <div class="abstract-card reveal">
+          <figure class="paper-figure large-figure zoomable" tabindex="0">
+            <img src="assets/figure/overview.png" alt="Overview of DreamTrajectory, including trajectory-guided VLA and test-time refiner" />
+            <figcaption>DreamTrajectory jointly predicts a planned end-effector trajectory and whole-body actions, then refines actions before execution.</figcaption>
+          </figure>
+          <div class="abstract-copy">
+            <p>
+              Mobile manipulation requires coordinated base-arm control under continuously changing viewpoints and contact conditions. Direct whole-body action prediction searches a large action space without an explicit task-space motion plan, while open-loop execution cannot verify whether the predicted actions will realize the intended motion.
+            </p>
+            <p>
+              <strong>DreamTrajectory</strong> addresses both limitations. A trajectory-guided VLA jointly predicts an intention-level end-effector trajectory and a whole-body action chunk. A lightweight trajectory world model then predicts the motion induced by candidate actions and selects the candidate best aligned with the plan.
+            </p>
+            <p>
+              On MS-HAB, trajectory guidance raises average success from <strong>32.3%</strong> to <strong>47.5%</strong>, and test-time refinement further improves it to <strong>54.8%</strong>. On three real-world tasks, average success rises from <strong>63.3%</strong> to <strong>81.7%</strong> and finally to <strong>90.0%</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div class="key-features">
+          <article class="feature reveal">
+            <div class="feature-icon trajectory-icon" aria-hidden="true"></div>
+            <h3>Explicit Trajectory Guidance</h3>
+            <p>A compact 7D end-effector trajectory provides a task-space reference for coordinated base-arm action generation.</p>
+          </article>
+          <article class="feature reveal">
+            <div class="feature-icon mask-icon" aria-hidden="true"></div>
+            <h3>Group-Causal Generation</h3>
+            <p>Trajectory tokens guide action denoising while the asymmetric attention mask prevents reverse information leakage.</p>
+          </article>
+          <article class="feature reveal">
+            <div class="feature-icon world-icon" aria-hidden="true"></div>
+            <h3>Trajectory World Model</h3>
+            <p>A lightweight action-conditioned model predicts the physical trajectory induced by each candidate action chunk.</p>
+          </article>
+          <article class="feature reveal">
+            <div class="feature-icon refine-icon" aria-hidden="true"></div>
+            <h3>Search-Predict-Score</h3>
+            <p>Candidate actions are sampled, predicted in parallel, scored for plan alignment and smoothness, then refined before execution.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="method" class="section method-section">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-kicker">Approach</span>
+          <h2 class="section-title">Method</h2>
+          <p class="section-subtitle">One task-space representation connects action generation and consequence prediction.</p>
+        </div>
+
+        <div class="method-panel reveal">
+          <figure class="paper-figure zoomable method-figure" tabindex="0" data-caption="DreamTrajectory framework overview">
+            <img src="assets/figure/overview.png" alt="DreamTrajectory framework overview" />
+            <span class="zoom-hint" aria-hidden="true">Click to enlarge</span>
+          </figure>
+          <div class="method-steps" role="list" aria-label="DreamTrajectory pipeline stages">
+            <article class="step active" role="button" tabindex="0" data-step="1">
+              <div class="step-number">01</div>
+              <div><h3>Observe and Understand</h3><p>The policy receives a language instruction, head-camera image, wrist-camera image, and proprioceptive state.</p></div>
+            </article>
+            <article class="step" role="button" tabindex="0" data-step="2">
+              <div class="step-number">02</div>
+              <div><h3>Jointly Generate Plan and Action</h3><p>A dual-stream action expert synchronously denoises a planned 7D trajectory and a whole-body action chunk.</p></div>
+            </article>
+            <article class="step" role="button" tabindex="0" data-step="3">
+              <div class="step-number">03</div>
+              <div><h3>Predict Candidate Outcomes</h3><p>The trajectory world model estimates the execution trajectory induced by each sampled action candidate.</p></div>
+            </article>
+            <article class="step" role="button" tabindex="0" data-step="4">
+              <div class="step-number">04</div>
+              <div><h3>Align and Refine</h3><p>DreamTrajectory executes the action whose predicted trajectory best matches the plan while remaining smooth.</p></div>
+            </article>
+          </div>
+          <div class="method-focus" aria-live="polite">
+            <span class="method-focus-index">Stage 01</span>
+            <strong>Observation forms the shared context for trajectory planning and whole-body control.</strong>
+          </div>
+        </div>
+
+        <div class="refiner-panel reveal">
+          <div class="refiner-copy">
+            <span class="section-kicker">Test-Time Refinement</span>
+            <h3>Align planned motion with predicted execution</h3>
+            <p>
+              The refiner preserves the original action, samples smooth perturbations, predicts each candidate's induced trajectory in parallel, and selects the candidate that balances trajectory consistency and action smoothness.
+            </p>
+            <div class="formula-card">
+              <span class="formula-label">Selection objective</span>
+              <code>a* = arg max [ λ S<sub>traj</sub>(a) + (1-λ) η S<sub>smooth</sub>(a) ]</code>
+            </div>
+          </div>
+          <figure class="paper-figure zoomable" tabindex="0">
+            <img src="assets/figure/refiner.png" alt="Three-step DreamTrajectory action refinement pipeline" />
+            <span class="zoom-hint" aria-hidden="true">Click to enlarge</span>
+            <figcaption>Gaussian sample → trajectory prediction → alignment and refinement.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="results" class="section results-section">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-kicker">Evaluation</span>
+          <h2 class="section-title">Results</h2>
+          <p class="section-subtitle">Trajectory guidance improves action generation; refinement corrects residual plan-execution mismatch.</p>
+        </div>
+
+        <div class="section-toolbar result-toolbar reveal" aria-label="Result display mode">
+          <span>Display</span>
+          <div class="segmented-control">
+            <button class="active" type="button" data-result-mode="absolute">Success rate</button>
+            <button type="button" data-result-mode="gain">Gain vs. π₀.₅</button>
+          </div>
+          <small>Click to compare absolute performance or percentage-point improvement.</small>
+        </div>
+
+        <div class="result-grid">
+          <article class="result-card reveal" data-highlight-absolute="54.8%" data-highlight-gain="+22.5 pp">
+            <div class="result-card-heading">
+              <div>
+                <span class="result-domain">MS-HAB Simulation</span>
+                <h3>Average success rate</h3>
+              </div>
+              <span class="result-highlight" data-result-highlight>54.8%</span>
+            </div>
+            <div class="bar-chart" aria-label="MS-HAB average success comparison">
+              <div class="bar-row" data-absolute="32.3" data-gain="0.0"><span>π<sub>0.5</sub></span><div><i style="--value:32.3%"></i></div><b>32.3</b></div>
+              <div class="bar-row" data-absolute="47.5" data-gain="15.2"><span>DT w/o Refiner</span><div><i style="--value:47.5%"></i></div><b>47.5</b></div>
+              <div class="bar-row emphasized" data-absolute="54.8" data-gain="22.5"><span>DreamTrajectory</span><div><i style="--value:54.8%"></i></div><b>54.8</b></div>
+            </div>
+            <p class="result-note">Largest gains appear on contact-rich articulated-object tasks such as opening and closing refrigerators and counters.</p>
+          </article>
+
+          <article class="result-card reveal" data-highlight-absolute="90.0%" data-highlight-gain="+26.7 pp">
+            <div class="result-card-heading">
+              <div>
+                <span class="result-domain">Real-World ARX LIFT</span>
+                <h3>Average success rate</h3>
+              </div>
+              <span class="result-highlight orange" data-result-highlight>90.0%</span>
+            </div>
+            <div class="bar-chart orange-chart" aria-label="Real-world average success comparison">
+              <div class="bar-row" data-absolute="63.3" data-gain="0.0"><span>π<sub>0.5</sub></span><div><i style="--value:63.3%"></i></div><b>63.3</b></div>
+              <div class="bar-row" data-absolute="81.7" data-gain="18.4"><span>DT w/o Refiner</span><div><i style="--value:81.7%"></i></div><b>81.7</b></div>
+              <div class="bar-row emphasized" data-absolute="90.0" data-gain="26.7"><span>DreamTrajectory</span><div><i style="--value:90%"></i></div><b>90.0</b></div>
+            </div>
+            <p class="result-note">The complete system reaches 80% on fruit pick-and-place, 90% on drawer opening, and 100% on drawer closing.</p>
+          </article>
+        </div>
+
+        <div class="table-panel reveal">
+          <div class="table-header">
+            <div>
+              <span class="section-kicker">Per-Task Performance</span>
+              <h3>MS-HAB set_table suite</h3>
+            </div>
+            <span>100 episodes per task</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Method</th><th>Pick Apple</th><th>Pick Bowl</th><th>Open Fridge</th><th>Close Fridge</th><th>Open Counter</th><th>Close Counter</th><th>Avg.</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>ACT</td><td>1.0</td><td>0.0</td><td>28.0</td><td>24.0</td><td>22.0</td><td>93.0</td><td>28.0</td></tr>
+                <tr><td>Diffusion Policy</td><td>19.0</td><td>22.0</td><td>19.0</td><td>61.0</td><td>17.0</td><td>28.0</td><td>27.7</td></tr>
+                <tr><td>RDT-1B</td><td>0.0</td><td>0.0</td><td>5.0</td><td>14.0</td><td>0.0</td><td>33.0</td><td>8.7</td></tr>
+                <tr><td>GR00T N1</td><td>3.0</td><td>1.0</td><td>43.0</td><td>16.0</td><td>5.0</td><td>59.0</td><td>21.2</td></tr>
+                <tr><td>π<sub>0.5</sub></td><td>37.0</td><td>19.0</td><td>5.0</td><td>8.0</td><td>87.0</td><td>38.0</td><td>32.3</td></tr>
+                <tr class="ours"><td>DreamTrajectory</td><td>39.0</td><td>35.0</td><td>51.0</td><td>33.0</td><td>91.0</td><td>80.0</td><td>54.8</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="efficiency-strip reveal">
+          <article><span>Trajectory Head</span><strong>0.017M</strong><small>+3.65 ms</small></article>
+          <article><span>Trajectory World Model</span><strong>49.02M</strong><small>+8.10 ms</small></article>
+          <article><span>Complete DT</span><strong>49.04M</strong><small>1.40% params · +11.75 ms</small></article>
+          <article><span>World Model Accuracy</span><strong>0.028 m</strong><small>xyz ADE with GRU</small></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="tasks" class="section tasks-section">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-kicker">Task Gallery</span>
+          <h2 class="section-title">Simulation and Real-World Tasks</h2>
+          <p class="section-subtitle">Every task requires concurrent base and arm motion.</p>
+        </div>
+
+        <div class="section-toolbar task-toolbar reveal" aria-label="Task domain filter">
+          <span>Show</span>
+          <div class="segmented-control">
+            <button class="active" type="button" data-task-filter="all">All tasks</button>
+            <button type="button" data-task-filter="simulation">Simulation</button>
+            <button type="button" data-task-filter="real">Real world</button>
+          </div>
+          <small>Filter without leaving gaps: visible cards always reflow into a complete grid.</small>
+        </div>
+
+        <div class="task-group reveal" data-domain="simulation">
+          <div class="task-group-title"><span>Simulation</span><small>MS-HAB · Fetch mobile manipulator</small></div>
+          <div class="task-gallery">
+            <figure class="task-card zoomable" tabindex="0"><img src="assets/figure/sim_pick_fruit.png" alt="Simulation sequence for picking fruit" /><figcaption><strong>Pick the Fruit</strong><span>Object acquisition with coordinated base-arm motion.</span></figcaption></figure>
+            <figure class="task-card zoomable" tabindex="0"><img src="assets/figure/sim_close_fridge.png" alt="Simulation sequence for closing a refrigerator" /><figcaption><strong>Close the Fridge</strong><span>Contact-rich articulated-object manipulation.</span></figcaption></figure>
+            <figure class="task-card zoomable" tabindex="0"><img src="assets/figure/sim_open_drawer.png" alt="Simulation sequence for opening a drawer" /><figcaption><strong>Open the Drawer</strong><span>Whole-body repositioning during interaction.</span></figcaption></figure>
+          </div>
+        </div>
+
+        <div class="task-group reveal" data-domain="real">
+          <div class="task-group-title orange-title"><span>Real World</span><small>ARX LIFT mobile manipulator</small></div>
+          <div class="task-gallery">
+            <figure class="task-card zoomable" tabindex="0"><img src="assets/figure/real_pick_fruit.png" alt="Real-world sequence for picking fruit" /><figcaption><strong>Fruit Pick-and-Place</strong><span>Four object categories under limited arm workspace.</span></figcaption></figure>
+            <figure class="task-card zoomable" tabindex="0"><img src="assets/figure/real_close_drawer.png" alt="Real-world sequence for closing a drawer" /><figcaption><strong>Close the Drawer</strong><span>Trajectory guidance reaches 100% success.</span></figcaption></figure>
+            <figure class="task-card zoomable" tabindex="0"><img src="assets/figure/real_open_drawer.png" alt="Real-world sequence for opening a drawer" /><figcaption><strong>Open the Drawer</strong><span>Refinement improves success to 90%.</span></figcaption></figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="demos" class="section demos-section">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-kicker">Videos</span>
+          <h2 class="section-title">Video Demonstrations</h2>
+          <p class="section-subtitle">Simulation and real-world rollouts are synchronized in a clean, muted, looping presentation.</p>
+        </div>
+
+        <div class="demo-row reveal">
+          <div class="demo-row-header">
+            <span class="demo-index">01</span>
+            <div><h3>Fruit Pick-and-Place</h3><p>Pick the instructed fruit and place it at the target location.</p></div>
+          </div>
+          <div class="demo-grid">
+            <div class="video-card"><div class="paper-video-frame"><video class="paper-video" autoplay muted loop playsinline preload="metadata" poster="assets/figure/sim_pick_fruit.png" aria-label="Simulation fruit pick-and-place rollout"><source src="assets/demo/sim_pick_fruit.mp4" type="video/mp4" /></video></div><div class="video-info"><h4>Simulation</h4><p>MS-HAB rollout</p></div></div>
+            <div class="video-card"><div class="paper-video-frame"><video class="paper-video" autoplay muted loop playsinline preload="metadata" poster="assets/figure/real_pick_fruit.png" aria-label="Real-world fruit pick-and-place rollout"><source src="assets/demo/real_pick_fruit.mp4" type="video/mp4" /></video></div><div class="video-info"><h4>Real World</h4><p>ARX LIFT rollout</p></div></div>
+          </div>
+        </div>
+
+        <div class="demo-row reveal">
+          <div class="demo-row-header">
+            <span class="demo-index">02</span>
+            <div><h3>Drawer Opening</h3><p>Coordinate base repositioning and arm motion to pull the drawer open.</p></div>
+          </div>
+          <div class="demo-grid">
+            <div class="video-card"><div class="paper-video-frame"><video class="paper-video" autoplay muted loop playsinline preload="metadata" poster="assets/figure/sim_open_drawer.png" aria-label="Simulation drawer opening rollout"><source src="assets/demo/sim_open_drawer.mp4" type="video/mp4" /></video></div><div class="video-info"><h4>Simulation</h4><p>MS-HAB rollout</p></div></div>
+            <div class="video-card"><div class="paper-video-frame"><video class="paper-video" autoplay muted loop playsinline preload="metadata" poster="assets/figure/real_open_drawer.png" aria-label="Real-world drawer opening rollout"><source src="assets/demo/real_open_drawer.mp4" type="video/mp4" /></video></div><div class="video-info"><h4>Real World</h4><p>ARX LIFT rollout</p></div></div>
+          </div>
+        </div>
+
+        <div class="demo-row reveal">
+          <div class="demo-row-header">
+            <span class="demo-index">03</span>
+            <div><h3>Drawer / Fridge Closing</h3><p>Maintain contact while coordinating the mobile base and manipulator.</p></div>
+          </div>
+          <div class="demo-grid">
+            <div class="video-card"><div class="paper-video-frame"><video class="paper-video" autoplay muted loop playsinline preload="metadata" poster="assets/figure/sim_close_fridge.png" aria-label="Simulation fridge closing rollout"><source src="assets/demo/sim_close_fridge.mp4" type="video/mp4" /></video></div><div class="video-info"><h4>Simulation</h4><p>MS-HAB rollout</p></div></div>
+            <div class="video-card"><div class="paper-video-frame"><video class="paper-video" autoplay muted loop playsinline preload="metadata" poster="assets/figure/real_close_drawer.png" aria-label="Real-world drawer closing rollout"><source src="assets/demo/real_close_drawer.mp4" type="video/mp4" /></video></div><div class="video-info"><h4>Real World</h4><p>ARX LIFT rollout</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="citation" class="section citation-section">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-kicker">Reference</span>
+          <h2 class="section-title">Citation</h2>
+        </div>
+        <div class="citation-box reveal">
+<pre><code id="bibtex">@article{yang2026dreamtrajectory,
+  title={DreamTrajectory: Trajectory-Guided Action Generation with World Model Alignment for Mobile Manipulation},
+  author={Yang, Zheng and Zhang, Wenjie and Chen, Xiangyu and Song, Wenxuan and Wang, Xianpeng and Kang, Yihang and Chen, Wen and Wang, Lujia and Xu, Renjing and Chu, Xiaowen},
+  journal={arXiv preprint arXiv:2608.01381},
+  year={2026}
+}</code></pre>
+          <button class="copy-btn" type="button" data-copy-target="bibtex">Copy BibTeX</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-content">
+      <a href="#top" class="footer-brand"><span class="logo-mark"></span>DreamTrajectory</a>
+      <p>HKUST (Guangzhou) · Ola Dimensions</p>
+      <p class="footer-meta">Project-page structure adapted from the Fast-dVLA academic website template. Paper figures are reproduced from the arXiv manuscript.</p>
+    </div>
+  </footer>
+
+
+  <div class="modal" id="media-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Media preview">
+    <button class="modal-close" type="button" aria-label="Close preview">×</button>
+    <div class="modal-dialog">
+      <img class="modal-image" alt="" />
+      <div class="modal-video-help" hidden>
+        <span class="modal-kicker">Video slot ready</span>
+        <h3>Add your MP4 at</h3>
+        <code></code>
+        <p>The page will keep the same 16:9 layout. Replace this placeholder with a &lt;video&gt; element or use the path above.</p>
+      </div>
+      <p class="modal-caption"></p>
+    </div>
+  </div>
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
